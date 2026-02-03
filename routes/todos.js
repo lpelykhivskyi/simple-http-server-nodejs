@@ -1,18 +1,100 @@
-const { readJsonBody } = require('../utils/jsonBody');
-const { getAllTodos, addTodo } = require('../services/todoService');
+const { getAllTodos, addTodo, deleteTodo } = require('../services/todoService');
 
-function sendJson(response, statusCode, payload) {
-  const body = JSON.stringify(payload);
+// function sendJson(response, statusCode, payload) {
+//   const body = JSON.stringify(payload);
 
-  response.writeHead(statusCode, {
-    'Content-Type': 'application/json; charset=utf-8',
-    'Content-Length': Buffer.byteLength(body)
-  });
+//   response.writeHead(statusCode, {
+//     'Content-Type': 'application/json; charset=utf-8',
+//     'Content-Length': Buffer.byteLength(body)
+//   });
 
-  response.end(body);
+//   response.end(body);
+// }
+
+async function getAll(req, res) {
+  const todos = await getAllTodos();
+  res.status(200).json(todos);
 }
 
-function handleTodos(request, response) { }
+async function getTodoById(req, res) {
+  const id = req.params.id;
+  const todos = await getAllTodos();
+
+  const foundTodo = todos.find(todo => todo.id === id);
+
+  return res.status(200).json({ item: foundTodo });
+}
+
+async function createTodo(req, res) {
+  try {
+    const body = req.body;
+
+    if (!body || typeof body.title !== 'string' || body.title.trim() === '') {
+      return res.status(400).send({ error: 'Field \"title\" is required' });
+    }
+
+    const createdTodo = await addTodo(body.title);
+
+    return res.status(201).send({ item: createdTodo });
+  } catch (err) {
+    return res.status(400).send({ error: err.message });
+  }
+}
+
+async function deleteTodoById(req, res) {
+  try {
+    const body = req.body;
+
+    if (!body || typeof body.id !== 'string' || body.id.trim() === '') {
+      return res.status(400).send({ error: 'Field \"id\" is required' });
+    }
+
+    const todoToDelete = await deleteTodo(body.id);
+    return res.status(201).send({ item: todoToDelete });
+  } catch (err) {
+    return res.status(400).send({ error: err.message });
+  }
+}
+
+// async function handleTodos(request, response) {
+//   // HTTP GET method /api/todos
+//   if (request.method === 'GET') {
+//     const todos = await getAllTodos();
+//     return sendJson(response, 200, { items: todos });
+//   }
+
+//   // HTTP POST method /api/todos
+//   if (request.method === 'POST') {
+//     try {
+//       const body = await readJsonBody(request);
+
+//       if (!body || typeof body.title !== 'string' || body.title.trim() === '') {
+//         return sendJson(response, 400, { error: 'Field \"title\" is required' });
+//       }
+
+//       const createdTodo = await addTodo(body.title);
+//       return sendJson(response, 201, { item: createdTodo });
+//     } catch (err) {
+//       return sendJson(response, 400, { error: err.message })
+//     }
+//   }
+
+//   // HTTP DELETE methods api/todos
+//   if (request.method === 'DELETE') {
+//     try {
+//       const body = await readJsonBody(request);
+
+//       if (!body || typeof body.id !== 'string' || body.id.trim() === '') {
+//         return sendJson(response, 400, { error: 'Field \"id\" is required' });
+//       }
+
+//       const todoToDelete = await deleteTodo(body.id);
+//       return sendJson(response, 201, { item: todoToDelete });
+//     } catch (err) {
+//       return sendJson(response, 400, { error: err.message })
+//     }
+//   }
+// }
 
 
-exports.module = { handleTodos };
+module.exports = { getAll, createTodo, deleteTodoById, getTodoById };

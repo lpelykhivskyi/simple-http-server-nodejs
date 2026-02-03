@@ -1,3 +1,5 @@
+// NOT USED
+
 function readJsonBody(request, limitBytes = 1000000) {
   return new Promise((resolve, reject) => {
     let data = '';

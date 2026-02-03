@@ -34,4 +34,16 @@ async function addTodo(title) {
   return newTodo;
 }
 
-module.exports = { addTodo, getAllTodos };
+async function deleteTodo(id) {
+  const todos = await readTodos();
+
+  const todoToDelete = todos.find(todo => todo.id === id);
+
+  const todosWithoutRemoved = todos.filter(todo => todo.id !== id);
+
+  await writeTodos(todosWithoutRemoved);
+
+  return todoToDelete;
+}
+
+module.exports = { addTodo, getAllTodos, deleteTodo };

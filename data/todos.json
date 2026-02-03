@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "id": "4006d013-2a78-43f9-b2ad-19d066425744",
+    "title": "Buy fruits",
+    "done": false,
+    "createdAt": "2026-02-02T07:54:40.971Z"
+  },
+  {
+    "id": "8badecd2-2851-4b96-a635-70a48eacb1ea",
+    "title": "Check home task",
+    "done": false,
+    "createdAt": "2026-02-02T07:54:52.429Z"
+  },
+  {
+    "id": "672ffc27-0ad6-4f5a-9d29-6d3df70aa47f",
+    "title": "Learn Node.js",
+    "done": false,
+    "createdAt": "2026-02-02T07:59:43.298Z"
+  }
+]
