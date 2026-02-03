@@ -1,4 +1,4 @@
-const { getAllTodos, addTodo, deleteTodo } = require('../services/todoService');
+const { getAllTodos, addTodo, deleteTodo, getTodoById } = require('../services/todoService');
 
 // function sendJson(response, statusCode, payload) {
 //   const body = JSON.stringify(payload);
@@ -18,11 +18,11 @@ async function getAll(req, res) {
 
 async function getTodoById(req, res) {
   const id = req.params.id;
-  const todos = await getAllTodos();
+  const todo = await getTodoById(id);
 
-  const foundTodo = todos.find(todo => todo.id === id);
-
-  return res.status(200).json({ item: foundTodo });
+  return res.status(200).json({ item: todo });
+  // const todos = await getAllTodos();
+  // const foundTodo = todos.find(todo => todo.id === id);
 }
 
 async function createTodo(req, res) {
