@@ -101,7 +101,7 @@ async function getTodoById(id) {
   const connection = await mysql.createConnection(DB_CONFIG);
 
   const getTodoByIdQuery = `
-    'SELECT * FROM TodoItems WHERE id = '${id}'
+    SELECT * FROM TodoItems WHERE id = '${id}'
   `;
 
   const [result] = await connection.query(getTodoByIdQuery);

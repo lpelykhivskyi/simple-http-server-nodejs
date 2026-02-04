@@ -16,7 +16,7 @@ async function getAll(req, res) {
   res.status(200).json(todos);
 }
 
-async function getTodoById(req, res) {
+async function getTodoByIdRoute(req, res) {
   const id = req.params.id;
   const todo = await getTodoById(id);
 
@@ -97,4 +97,4 @@ async function deleteTodoById(req, res) {
 // }
 
 
-module.exports = { getAll, createTodo, deleteTodoById, getTodoById };
+module.exports = { getAll, createTodo, deleteTodoById, getTodoByIdRoute };
