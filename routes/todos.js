@@ -1,4 +1,5 @@
 const { getAllTodos, addTodo, deleteTodo, getTodoById } = require('../services/todoService');
+const { io } = require('../socket');
 
 // function sendJson(response, statusCode, payload) {
 //   const body = JSON.stringify(payload);
@@ -25,7 +26,7 @@ async function getTodoByIdRoute(req, res) {
   // const foundTodo = todos.find(todo => todo.id === id);
 }
 
-async function createTodo(req, res) {
+async function createTodo(req, res, io) {
   try {
     const body = req.body;
 
@@ -34,6 +35,8 @@ async function createTodo(req, res) {
     }
 
     const createdTodo = await addTodo(body.title);
+
+    io.emit("item_created", createdTodo);
 
     return res.status(201).send({ item: createdTodo });
   } catch (err) {
