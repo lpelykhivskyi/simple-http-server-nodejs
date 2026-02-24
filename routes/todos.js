@@ -1,5 +1,4 @@
 const { getAllTodos, addTodo, deleteTodo, getTodoById } = require('../services/todoService');
-const { io } = require('../socket');
 
 // function sendJson(response, statusCode, payload) {
 //   const body = JSON.stringify(payload);
